@@ -8,6 +8,7 @@ application. The library includes type definitions for all request params and re
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
 It is generated with [Stainless](https://www.stainless.com/).
+API Reference: https://andreibesleaga.github.io/ocm-api-reference/api.html
 
 ## MCP Server
 
