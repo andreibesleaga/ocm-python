@@ -26,12 +26,9 @@ The REST API documentation can be found on [openchargemap.org](https://opencharg
 ## Installation
 
 ```sh
-# install from the production repo
-pip install git+ssh://git@github.com/andreibesleaga/ocm-python.git
+# install from PyPI
+pip install ocm
 ```
-
-> [!NOTE]
-> Once this package is [published to PyPI](https://www.stainless.com/docs/guides/publish), this will become: `pip install ocm`
 
 ## Usage
 
@@ -83,8 +80,8 @@ By default, the async client uses `httpx` for HTTP requests. However, for improv
 You can enable this by installing `aiohttp`:
 
 ```sh
-# install from the production repo
-pip install 'ocm[aiohttp] @ git+ssh://git@github.com/andreibesleaga/ocm-python.git'
+# install from PyPI
+pip install ocm[aiohttp]
 ```
 
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
