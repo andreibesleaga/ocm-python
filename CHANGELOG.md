@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.4 (2026-06-25)
+
+Full Changelog: [v0.0.3...v0.0.4](https://github.com/andreibesleaga/ocm-python/compare/v0.0.3...v0.0.4)
+
+### Chores
+
+* update SDK settings ([fe0913b](https://github.com/andreibesleaga/ocm-python/commit/fe0913b7117bffc0efdd3791822e083ab3a0fd2e))
+
 ## 0.0.3 (2026-06-24)
 
 Full Changelog: [v0.0.2...v0.0.3](https://github.com/andreibesleaga/ocm-python/compare/v0.0.2...v0.0.3)
