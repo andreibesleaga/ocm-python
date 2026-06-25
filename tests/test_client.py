@@ -213,7 +213,7 @@ class TestOcm:
 
         # completely overrides already set values
         copied = client.copy(set_default_query={})
-        assert _get_params(copied) == {}
+        assert _get_params(copied) == {"key": "My API Key"}
 
         copied = client.copy(set_default_query={"bar": "Robert"})
         assert _get_params(copied)["bar"] == "Robert"
@@ -395,7 +395,7 @@ class TestOcm:
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
-        assert dict(url.params) == {"query_param": "bar"}
+        assert dict(url.params) == {"query_param": "bar", "key": "My API Key"}
 
         request = client._build_request(
             FinalRequestOptions(
@@ -405,14 +405,14 @@ class TestOcm:
             )
         )
         url = httpx.URL(request.url)
-        assert dict(url.params) == {"foo": "baz", "query_param": "overridden"}
+        assert dict(url.params) == {"foo": "baz", "query_param": "overridden", "key": "My API Key"}
 
         client.close()
 
     def test_hardcoded_query_params_in_url(self, client: Ocm) -> None:
         request = client._build_request(FinalRequestOptions(method="get", url="/foo?beta=true"))
         url = httpx.URL(request.url)
-        assert dict(url.params) == {"beta": "true"}
+        assert dict(url.params) == {"beta": "true", "key": "My API Key"}
 
         request = client._build_request(
             FinalRequestOptions(
@@ -422,7 +422,7 @@ class TestOcm:
             )
         )
         url = httpx.URL(request.url)
-        assert dict(url.params) == {"beta": "true", "limit": "10", "page": "abc"}
+        assert dict(url.params) == {"beta": "true", "limit": "10", "page": "abc", "key": "My API Key"}
 
         request = client._build_request(
             FinalRequestOptions(
@@ -431,7 +431,7 @@ class TestOcm:
                 params={"limit": "10"},
             )
         )
-        assert request.url.raw_path == b"/files/a%2Fb?beta=true&limit=10"
+        assert request.url.raw_path == b"/files/a%2Fb?beta=true&key=My+API+Key&limit=10"
 
     def test_request_extra_json(self, client: Ocm) -> None:
         request = client._build_request(
@@ -500,7 +500,7 @@ class TestOcm:
             ),
         )
         params = dict(request.url.params)
-        assert params == {"my_query_param": "Foo"}
+        assert params == {"my_query_param": "Foo", "key": "My API Key"}
 
         # if both `query` and `extra_query` are given, they are merged
         request = client._build_request(
@@ -514,7 +514,7 @@ class TestOcm:
             ),
         )
         params = dict(request.url.params)
-        assert params == {"bar": "1", "foo": "2"}
+        assert params == {"bar": "1", "foo": "2", "key": "My API Key"}
 
         # `extra_query` takes priority over `query` when keys clash
         request = client._build_request(
@@ -528,7 +528,7 @@ class TestOcm:
             ),
         )
         params = dict(request.url.params)
-        assert params == {"foo": "2"}
+        assert params == {"foo": "2", "key": "My API Key"}
 
     def test_multipart_repeating_array(self, client: Ocm) -> None:
         request = client._build_request(
@@ -716,7 +716,7 @@ class TestOcm:
                 json_data={"foo": "bar"},
             ),
         )
-        assert request.url == "http://localhost:5000/custom/path/foo"
+        assert request.url == "http://localhost:5000/custom/path/foo?key=My+API+Key"
         client.close()
 
     @pytest.mark.parametrize(
@@ -740,7 +740,7 @@ class TestOcm:
                 json_data={"foo": "bar"},
             ),
         )
-        assert request.url == "http://localhost:5000/custom/path/foo"
+        assert request.url == "http://localhost:5000/custom/path/foo?key=My+API+Key"
         client.close()
 
     @pytest.mark.parametrize(
@@ -764,7 +764,7 @@ class TestOcm:
                 json_data={"foo": "bar"},
             ),
         )
-        assert request.url == "https://myapi.com/foo"
+        assert request.url == "https://myapi.com/foo?key=My+API+Key"
         client.close()
 
     def test_copied_client_does_not_close_http(self) -> None:
@@ -1106,7 +1106,7 @@ class TestAsyncOcm:
 
         # completely overrides already set values
         copied = client.copy(set_default_query={})
-        assert _get_params(copied) == {}
+        assert _get_params(copied) == {"key": "My API Key"}
 
         copied = client.copy(set_default_query={"bar": "Robert"})
         assert _get_params(copied)["bar"] == "Robert"
@@ -1298,7 +1298,7 @@ class TestAsyncOcm:
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
-        assert dict(url.params) == {"query_param": "bar"}
+        assert dict(url.params) == {"query_param": "bar", "key": "My API Key"}
 
         request = client._build_request(
             FinalRequestOptions(
@@ -1308,14 +1308,14 @@ class TestAsyncOcm:
             )
         )
         url = httpx.URL(request.url)
-        assert dict(url.params) == {"foo": "baz", "query_param": "overridden"}
+        assert dict(url.params) == {"foo": "baz", "query_param": "overridden", "key": "My API Key"}
 
         await client.close()
 
     async def test_hardcoded_query_params_in_url(self, async_client: AsyncOcm) -> None:
         request = async_client._build_request(FinalRequestOptions(method="get", url="/foo?beta=true"))
         url = httpx.URL(request.url)
-        assert dict(url.params) == {"beta": "true"}
+        assert dict(url.params) == {"beta": "true", "key": "My API Key"}
 
         request = async_client._build_request(
             FinalRequestOptions(
@@ -1325,7 +1325,7 @@ class TestAsyncOcm:
             )
         )
         url = httpx.URL(request.url)
-        assert dict(url.params) == {"beta": "true", "limit": "10", "page": "abc"}
+        assert dict(url.params) == {"beta": "true", "limit": "10", "page": "abc", "key": "My API Key"}
 
         request = async_client._build_request(
             FinalRequestOptions(
@@ -1334,7 +1334,7 @@ class TestAsyncOcm:
                 params={"limit": "10"},
             )
         )
-        assert request.url.raw_path == b"/files/a%2Fb?beta=true&limit=10"
+        assert request.url.raw_path == b"/files/a%2Fb?beta=true&key=My+API+Key&limit=10"
 
     def test_request_extra_json(self, client: Ocm) -> None:
         request = client._build_request(
@@ -1403,7 +1403,7 @@ class TestAsyncOcm:
             ),
         )
         params = dict(request.url.params)
-        assert params == {"my_query_param": "Foo"}
+        assert params == {"my_query_param": "Foo", "key": "My API Key"}
 
         # if both `query` and `extra_query` are given, they are merged
         request = client._build_request(
@@ -1417,7 +1417,7 @@ class TestAsyncOcm:
             ),
         )
         params = dict(request.url.params)
-        assert params == {"bar": "1", "foo": "2"}
+        assert params == {"bar": "1", "foo": "2", "key": "My API Key"}
 
         # `extra_query` takes priority over `query` when keys clash
         request = client._build_request(
@@ -1431,7 +1431,7 @@ class TestAsyncOcm:
             ),
         )
         params = dict(request.url.params)
-        assert params == {"foo": "2"}
+        assert params == {"foo": "2", "key": "My API Key"}
 
     def test_multipart_repeating_array(self, async_client: AsyncOcm) -> None:
         request = async_client._build_request(
@@ -1623,7 +1623,7 @@ class TestAsyncOcm:
                 json_data={"foo": "bar"},
             ),
         )
-        assert request.url == "http://localhost:5000/custom/path/foo"
+        assert request.url == "http://localhost:5000/custom/path/foo?key=My+API+Key"
         await client.close()
 
     @pytest.mark.parametrize(
@@ -1647,7 +1647,7 @@ class TestAsyncOcm:
                 json_data={"foo": "bar"},
             ),
         )
-        assert request.url == "http://localhost:5000/custom/path/foo"
+        assert request.url == "http://localhost:5000/custom/path/foo?key=My+API+Key"
         await client.close()
 
     @pytest.mark.parametrize(
@@ -1671,7 +1671,7 @@ class TestAsyncOcm:
                 json_data={"foo": "bar"},
             ),
         )
-        assert request.url == "https://myapi.com/foo"
+        assert request.url == "https://myapi.com/foo?key=My+API+Key"
         await client.close()
 
     async def test_copied_client_does_not_close_http(self) -> None:
